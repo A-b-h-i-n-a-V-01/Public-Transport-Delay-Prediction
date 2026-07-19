@@ -1,7 +1,10 @@
 # TransitDelay AI 🚇
 > A machine learning-powered web application designed to forecast public transport delay probabilities using historical transit logs and simulated environmental contexts.
 
-This repository features an end-to-end Machine Learning pipeline: from raw data cleaning and model training (via Jupyter Notebook) to a production-ready Flask API and a premium glassmorphic web dashboard.
+## 📋 About the Project
+TransitDelay AI is an intelligent predictive tool designed to address uncertainty in urban travel. By leveraging historical travel logs, scheduling metadata, and environmental conditions, the system forecasts whether a particular journey will run on schedule or encounter delays.
+
+Using a pre-trained **Random Forest Classifier**, the system models complex relations between transit modes (Bus, Metro, Train, Tram), temporal factors (peak hours, weekdays, seasons), and environmental contexts (temperature, precipitation, and traffic load). A dynamic, glassmorphic dashboard provides an intuitive interface for commuters to plan their journeys with real-time confidence scores.
 
 ---
 
