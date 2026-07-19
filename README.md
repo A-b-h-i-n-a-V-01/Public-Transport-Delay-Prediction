@@ -46,18 +46,3 @@ http://127.0.0.1:5000
 * **Aesthetics**: Premium, dark-themed glassmorphism interface styled with Vanilla CSS.
 * **Micro-Animations**: Features a custom `requestAnimationFrame` circular gauge animation that counts up progress and sweeps the border stroke over 1 second.
 * **Realistic Inputs**: Automatically maps generic station IDs (e.g. `Station_31`) to realistic London transit hubs (e.g. `Richmond Station`) on the dropdown selectors.
-
----
-
-## 📊 Presentation & Project Demo Guide
-
-When presenting this college ML project, here are key points to explain:
-
-### 1. The Contextual Simulation Note
-> *"Currently, the contextual features (weather and traffic indexes) are simulated. In a production version, these variables would be automatically fetched using live weather (e.g., OpenWeatherMap) and traffic (e.g., Google Maps) APIs before executing the prediction."*
-
-### 2. Model Performance
-* The project compared multiple classifiers (Logistic Regression, Decision Trees, KNN, and SVM) before choosing **Random Forest** due to its high performance and robustness against mixed categorical and numerical schemas.
-
-### 3. Explaining Counter-Intuitive Predictions
-* **Why Clear weather might show more delay than Rain**: Machine learning models look at historical correlation. Clear weather correlates with higher passenger volume (dwell time at gates) and higher tourist/commuter traffic, which often causes cascading transit system delays compared to low-volume rainy days.
