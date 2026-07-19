@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TransitDelay AI | Public Transport Delay Prediction</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- CSS stylesheet -->
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="glass-bg"></div>
+    <div class="glow-orb glow-1"></div>
+    <div class="glow-orb glow-2"></div>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="logo">
+                <i class="fa-solid fa-train-subway brand-icon"></i>
+                <h1>TransitDelay <span class="accent-text">AI</span></h1>
+            </div>
+            <p class="subtitle">Machine Learning Powered Delay Forecasting System</p>
+        </header>
+
+        <!-- Main Content -->
+        <main class="dashboard">
+            <!-- Left Panel: Input Form -->
+            <section class="card form-card">
+                <div class="card-header">
+                    <i class="fa-solid fa-route header-icon"></i>
+                    <h2>Trip Parameters</h2>
+                </div>
+                <form id="prediction-form" class="prediction-form">
+                    
+                    <!-- Basic Trip Details -->
+                    <div class="form-group">
+                        <label for="origin"><i class="fa-solid fa-location-dot"></i> Origin Station</label>
+                        <select id="origin" required>
+                            <option value="" disabled selected>Loading stations...</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="destination"><i class="fa-solid fa-location-crosshairs"></i> Destination Station</label>
+                        <select id="destination" required>
+                            <option value="" disabled selected>Loading stations...</option>
+                        </select>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <label for="transport_type"><i class="fa-solid fa-bus"></i> Transport Type</label>
+                            <select id="transport_type" required>
+                                <option value="" disabled selected>Select...</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="departure_time"><i class="fa-regular fa-clock"></i> Departure Time</label>
+                            <input type="time" id="departure_time" value="08:00" required>
+                        </div>
+                    </div>
+
+                    <!-- Accordion for Simulated Live Parameters -->
+                    <div class="accordion">
+                        <button type="button" class="accordion-toggle" id="toggle-sim-params">
+                            <span><i class="fa-solid fa-sliders"></i> Contextual Features (Simulated)</span>
+                            <i class="fa-solid fa-chevron-down chevron"></i>
+                        </button>
+                        
+                        <div class="accordion-content" id="sim-params-content">
+                            <div class="sim-grid">
+                                <div class="form-group">
+                                    <label for="temperature_C">Temp (°C)</label>
+                                    <input type="number" id="temperature_C" value="30" step="0.5">
+                                </div>
+                                <div class="form-group">
+                                    <label for="humidity_percent">Humidity (%)</label>
+                                    <input type="number" id="humidity_percent" value="82" min="0" max="100">
+                                </div>
+                                <div class="form-group">
+                                    <label for="wind_speed_kmh">Wind Speed (km/h)</label>
+                                    <input type="number" id="wind_speed_kmh" value="15" min="0">
+                                </div>
+                                <div class="form-group">
+                                    <label for="precipitation_mm">Precipitation (mm)</label>
+                                    <input type="number" id="precipitation_mm" value="2" step="0.1" min="0">
+                                </div>
+                                <div class="form-group">
+                                    <label for="traffic_congestion_index">Traffic Index</label>
+                                    <input type="number" id="traffic_congestion_index" value="65" min="0" max="100">
+                                </div>
+                                <div class="form-group">
+                                    <label for="weather_condition">Weather</label>
+                                    <select id="weather_condition">
+                                        <option value="Clear">Clear</option>
+                                        <option value="Cloudy">Cloudy</option>
+                                        <option value="Fog">Fog</option>
+                                        <option value="Rain" selected>Rain</option>
+                                        <option value="Snow">Snow</option>
+                                        <option value="Storm">Storm</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" id="btn-predict">
+                        <span>Predict Delay Probability</span>
+                        <i class="fa-solid fa-circle-notch spinner hidden"></i>
+                    </button>
+                </form>
+            </section>
+
+            <!-- Right Panel: Results & Analytics -->
+            <section class="card results-card">
+                <!-- Welcome/Initial State -->
+                <div id="results-welcome" class="results-welcome-state">
+                    <div class="welcome-graphic">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                    <h3>Ready for Prediction</h3>
+                    <p>Enter trip parameters and press predict to evaluate delay likelihood based on historical schedules and simulated live environments.</p>
+                </div>
+
+                <!-- Active Result Display (Hidden initially) -->
+                <div id="results-active" class="results-active-state hidden">
+                    <div class="card-header border-none">
+                        <i class="fa-solid fa-square-poll-vertical header-icon"></i>
+                        <h2>Prediction Analysis</h2>
+                    </div>
+
+                    <!-- Outcome Gauge -->
+                    <div class="outcome-container">
+                        <div class="gauge-ring" id="outcome-gauge">
+                            <span id="probability-value">0%</span>
+                        </div>
+                        <div class="outcome-badge" id="outcome-status">
+                            ON-TIME
+                        </div>
+                    </div>
+
+                    <!-- Explanation -->
+                    <p class="outcome-explanation" id="outcome-desc">
+                        No delay is anticipated for this journey.
+                    </p>
+
+                    <!-- Details Stats Grid -->
+                    <div class="details-grid">
+                        <div class="detail-item">
+                            <div class="detail-label">Route Identified</div>
+                            <div class="detail-value" id="res-route">-</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Est. Duration</div>
+                            <div class="detail-value" id="res-duration">-</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Traffic Load</div>
+                            <div class="detail-value" id="res-traffic">-</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Weather Context</div>
+                            <div class="detail-value" id="res-weather">-</div>
+                        </div>
+                    </div>
+
+                    <!-- College Project Demo Alert -->
+                    <div class="demo-alert">
+                        <div class="demo-alert-header">
+                            <i class="fa-solid fa-circle-info"></i>
+                            <span>Project Demo Note</span>
+                        </div>
+                        <p class="demo-alert-body">
+                            "Currently, these contextual features are simulated. In a production version, they would be automatically fetched using live APIs before making the prediction."
+                        </p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <p>&copy; 2026 TransitDelay AI. Academic ML Project.</p>
+        </footer>
+    </div>
+
+    <!-- JavaScript code -->
+    <script src="/static/js/main.js"></script>
+</body>
+</html>
