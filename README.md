@@ -1,6 +1,8 @@
 # TransitDelay AI 🚇
 > A machine learning-powered web application designed to forecast public transport delay probabilities using historical transit logs and simulated environmental contexts.
 
+![TransitDelay AI Preview](transit.png)
+
 ## 📋 About the Project
 TransitDelay AI is an intelligent predictive tool designed to address uncertainty in urban travel. By leveraging historical travel logs, scheduling metadata, and environmental conditions, the system forecasts whether a particular journey will run on schedule or encounter delays.
 
